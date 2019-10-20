@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <math.h>
+#include <float.h>
 
 int main(){
 
@@ -255,7 +256,9 @@ if ( tr2_va1 <= 0 || tr2_va2 <= 0 || tr1_va2 <= 0 ){
 
     // Podobnost:
 
-      if ( (tr1_va1 / tr2_va1) == (tr1_va2 / tr2_va2) && (tr1_va1 / tr2_va1) == (tr1_va3 / tr2_va3) && (tr1_va2 / tr2_va2) == (tr1_va3 / tr2_va3) ){
+    if (   (tr1_va1 / tr2_va1) - (tr1_va2 / tr2_va2)  < 0.001  &&
+           (tr1_va1 / tr2_va1) - (tr1_va3 / tr2_va3)  < 0.0001  &&
+            (tr1_va2 / tr2_va2) - (tr1_va3 / tr2_va3)  < 0.0001 ){
         podobne = 1;
       }
       else{
@@ -291,47 +294,114 @@ if ( tr2_va1 <= 0 || tr2_va2 <= 0 || tr1_va2 <= 0 ){
 // SUS vs SUS:
 
 
-      if ( tr1_ch1 == 'S' && tr1_ch2 == 'U' && tr1_ch3 == 'S' &&  tr2_ch1 == 'S' && tr2_ch2 == 'U' && tr2_ch3 == 'S' ){
+if ( tr1_ch1 == 'S' && tr1_ch2 == 'U' && tr1_ch3 == 'S' &&  tr2_ch1 == 'S' && tr2_ch2 == 'U' && tr2_ch3 == 'S' ){
 
-        // Shodnost:
+  // Prevod uhlu na radiany:
 
-                if ( tr1_va1 == tr2_va1 && tr1_va2 == tr2_va2 && tr1_va3 == tr2_va3 ){
-                  shodne = 1;
-                }
-                else {
-                  shodne = 0;
-                };
+    double alpha = tr1_va2 * (M_PI/180);
+    double omega = tr2_va2 * (M_PI/180);
 
-        // Podobnost:
+  // Vypocet vsech stran:
 
-              if ( ( tr1_va2 == tr2_va2 ) && ( ( tr1_va1 / tr2_va1 ) == ( tr1_va3 / tr2_va3 ) ) ){
-                podobne = 1;
-              }
-              else {
-                podobne = 0;
-              };
+    double a = tr1_va1;
+    double b = tr1_va3;
+    double c = sqrt( (a*a) + (b*b) - (2*a*b*cos(alpha)) );
 
-        // Vypis:
+    double x = tr2_va1;
+    double y = tr2_va3;
+    double z = sqrt( (x*x) + (y*y) - (2*x*y*cos(omega)) );
 
-              if ( shodne == 1 && podobne == 1 ){
-                printf("Trojuhelniky jsou shodne.\n");
-                return 0;
-              }
-              else if ( shodne == 1 && podobne == 0 ){
-                printf("Trojuhelniky jsou shodne.\n");
-                return 0;
-              }
-              else if ( shodne == 0 && podobne == 1 ){
-                printf("Trojuhelniky nejsou shodne, ale jsou podobne.\n");
-                return 0;
-              }
-              else if ( shodne == 0 && podobne == 0 ){
-                printf("Trojuhelniky nejsou shodne ani podobne.\n");
-                return 0;
-              };
+  // Serazeni stran:
 
 
-      };
+                            // Serazeni delek stran tr1:
+
+                                    if ( a > b ){
+                                      double tmp = b;
+                                      b = a;
+                                      a = tmp;
+                                    };
+
+                                    if ( b > c ){
+                                      double tmp = c;
+                                      c = b;
+                                      b = tmp;
+                                    };
+
+                                    if ( a > b ){
+                                      double tmp = b;
+                                      b = a;
+                                      a = tmp;
+                                    };
+
+
+
+                              // Serazeni delek stran tr2:
+
+                                    if ( x > y ){
+                                      double tmp = y;
+                                      y = x;
+                                      x = tmp;
+                                    };
+
+                                    if ( y > z ){
+                                      double tmp = z;
+                                      z = y;
+                                      y = tmp;
+                                    };
+
+                                    if ( x > y ){
+                                      double tmp = y;
+                                      y = x;
+                                      x = tmp;
+                                    };
+
+
+
+
+
+  // Shodnost:
+
+          if ( a==x && b==y && c==z ){
+            shodne = 1;
+          }
+          else {
+            shodne = 0;
+          };
+
+  // Podobnost:
+
+        if ( ((a/x) == (b/y)) && ((b/y) == (c/z)) && ((a/x) == (c/z)) ){
+          podobne = 1;
+        }
+        else {
+          podobne = 0;
+        };
+
+  // Vypis:
+
+        if ( shodne == 1 && podobne == 1 ){
+          printf("Trojuhelniky jsou shodne.\n");
+          return 0;
+        }
+        else if ( shodne == 1 && podobne == 0 ){
+          printf("Trojuhelniky jsou shodne.\n");
+          return 0;
+        }
+        else if ( shodne == 0 && podobne == 1 ){
+          printf("Trojuhelniky nejsou shodne, ale jsou podobne.\n");
+          return 0;
+        }
+        else if ( shodne == 0 && podobne == 0 ){
+          printf("Trojuhelniky nejsou shodne ani podobne.\n");
+          return 0;
+        };
+
+
+};
+
+
+
 
 
 
@@ -345,42 +415,189 @@ if ( tr2_va1 <= 0 || tr2_va2 <= 0 || tr1_va2 <= 0 ){
 
       if ( tr1_ch1 == 'U' && tr1_ch2 == 'S' && tr1_ch3 == 'U' &&  tr2_ch1 == 'U' && tr2_ch2 == 'S' && tr2_ch3 == 'U' ){
 
-            // Shodnost:
-
-                  if ( tr1_va1 == tr2_va1 && tr1_va2 == tr2_va2 && tr1_va3 == tr2_va3 ){
-                    shodne = 1;
-                  }
-                  else{
-                    shodne = 0;
-                  };
-
-            // Podobnost:
-
-                  if ( tr1_va1 == tr2_va1 && tr1_va3 == tr2_va3 ){
-                    podobne = 1;
-                  }
-                  else{
-                    podobne = 0;
-                  };
 
 
-            // Vypis:
-                  if ( shodne == 1 && podobne == 1 ){
-                    printf("Trojuhelniky jsou shodne.\n");
-                    return 0;
-                  }
-                  else if ( shodne == 1 && podobne == 0 ){
-                    printf("Trojuhelniky jsou shodne.\n");
-                    return 0;
-                  }
-                  else if ( shodne == 0 && podobne == 1 ){
-                    printf("Trojuhelniky nejsou shodne, ale jsou podobne.\n");
-                    return 0;
-                  }
-                  else if ( shodne == 0 && podobne == 0 ){
-                    printf("Trojuhelniky nejsou shodne ani podobne.\n");
-                    return 0;
-                  };
+        // Urceni vsech uhlu:
+
+
+              double alph = tr1_va1;
+              double bet = tr1_va3;
+              double gam = 180 - (alph + bet);
+
+              double epsilo = tr2_va1;
+              double omeg = tr2_va3;
+              double delt = 180 - (epsilo + omeg);
+
+        // Na radiany:
+
+              double alpha = alph * (M_PI/180);
+              double beta = bet * (M_PI/180);
+              double gama = gam * (M_PI/180);
+
+              double epsilon = epsilo * (M_PI/180);
+              double omega = omeg * (M_PI/180);
+              double delta = delt * (M_PI/180);
+
+        // Vypocet vsech stran:
+
+              double a = tr1_va2;
+              double b = a * (sin(alpha)/sin(beta));
+              double c = a * (sin(gama)/sin(beta));
+
+              double x = tr2_va2;
+              double y = x * (sin(epsilon)/sin(omega));
+              double z = x * (sin(delta)/sin(omega));
+
+
+
+              // Serazeni delek uhlu tr1:
+
+                      if ( alph > bet ){
+                        double tmp = bet;
+                        bet = alph;
+                        alph = tmp;
+                      };
+
+                      if ( bet > gam ){
+                        double tmp = gam;
+                        gam = bet;
+                        bet = tmp;
+                      };
+
+                      if ( alph > bet ){
+                        double tmp = bet;
+                        bet = alph;
+                        alph = tmp;
+                      };
+
+
+
+                // Serazeni delek uhlu tr2:
+
+                      if ( epsilo > omeg ){
+                        double tmp = omeg;
+                        omeg = epsilo;
+                        epsilo = tmp;
+                      };
+
+                      if ( omeg > delt ){
+                        double tmp = delt;
+                        delt = omeg;
+                        omeg = tmp;
+                      };
+
+                      if ( epsilo > omeg ){
+                        double tmp = omeg;
+                        omeg = epsilo;
+                        epsilo = tmp;
+                      };
+
+
+
+
+
+
+
+
+
+
+
+        // Serazeni delek stran tr1:
+
+                if ( a > b ){
+                  double tmp = b;
+                  b = a;
+                  a = tmp;
+                };
+
+                if ( b > c ){
+                  double tmp = c;
+                  c = b;
+                  b = tmp;
+                };
+
+                if ( a > b ){
+                  double tmp = b;
+                  b = a;
+                  a = tmp;
+                };
+
+
+
+          // Serazeni delek stran tr2:
+
+                if ( x > y ){
+                  double tmp = y;
+                  y = x;
+                  x = tmp;
+                };
+
+                if ( y > z ){
+                  double tmp = z;
+                  z = y;
+                  y = tmp;
+                };
+
+                if ( x > y ){
+                  double tmp = y;
+                  y = x;
+                  x = tmp;
+                };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          // Shodnost:
+
+                if ( (a == x) && (b==y) && (c==z) ){
+                  shodne = 1;
+                }
+                else{
+                  shodne = 0;
+                };
+
+          // Podobnost:
+
+                if ( (alph == epsilo) && (bet == omeg) && (gam == delt) ){
+                  podobne = 1;
+                }
+                else{
+                  podobne = 0;
+                };
+
+
+          // Vypis:
+
+          //  printf("Triangle 1 = %f %f %f\n", a, b, c);
+          //  printf("Triangle 2 = %f %f %f\n", x, y, z);
+
+
+                if ( shodne == 1 && podobne == 1 ){
+                  printf("Trojuhelniky jsou shodne.\n");
+                  return 0;
+                }
+                else if ( shodne == 1 && podobne == 0 ){
+                  printf("Trojuhelniky jsou shodne.\n");
+                  return 0;
+                }
+                else if ( shodne == 0 && podobne == 1 ){
+                  printf("Trojuhelniky nejsou shodne, ale jsou podobne.\n");
+                  return 0;
+                }
+                else if ( shodne == 0 && podobne == 0 ){
+                  printf("Trojuhelniky nejsou shodne ani podobne.\n");
+                  return 0;
+                };
 
 
 
@@ -1129,7 +1346,9 @@ if ( tr2_va1 <= 0 || tr2_va2 <= 0 || tr1_va2 <= 0 ){
                       // Podobnost:
 
 
-                          if ( ( (tr2_va1 / z) == (tr2_va3 / x) ) && ( (tr2_va3 / x) == (c / y) ) && ( (tr2_va1 / z) == (c / y) ) ){
+                      if ( ( (tr2_va1 / z) - (tr2_va3 / x) ) < 0.1 &&
+                            ( (tr2_va3 / x) - (c / y) ) < 0.1 &&
+                            ( (tr2_va1 / z) - (c / y) ) < 0.1 ){
                             podobne = 1;
                           }
                           else{
@@ -1141,8 +1360,8 @@ if ( tr2_va1 <= 0 || tr2_va2 <= 0 || tr1_va2 <= 0 ){
                       // Vypis:
 
 
-                          printf("Triangle 1 = %0.15f %0.15f %0.15f\n", z, x, y);
-                          printf("Triangle 2 = %0.15f %0.15f %0.15f\n", tr2_va1, tr2_va3, c);
+                          // printf("Triangle 1 = %0.15f %0.15f %0.15f\n", z, x, y);
+                          // printf("Triangle 2 = %0.15f %0.15f %0.15f\n", tr2_va1, tr2_va3, c);
 
 
                           if ( shodne == 1 && podobne == 1 ){
