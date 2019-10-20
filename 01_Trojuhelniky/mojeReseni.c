@@ -25,7 +25,12 @@ int main(){
   printf("Trojuhelnik #1:\n");
 
 
-  if ( scanf(" %c%c%c %lf %lf %lf", &tr1_ch1, &tr1_ch2, &tr1_ch3, &tr1_va1, &tr1_va2, &tr1_va3) != 6 ){
+  if ( scanf(" %c%c%c", &tr1_ch1, &tr1_ch2, &tr1_ch3 ) != 3 ){
+    printf("Nespravny vstup.\n");
+    return 1;
+  };
+
+  if ( scanf("%lf %lf %lf", &tr1_va1, &tr1_va2, &tr1_va3 ) !=3 ){
     printf("Nespravny vstup.\n");
     return 1;
   };
@@ -33,13 +38,18 @@ int main(){
 
 
 
-  if ( tr1_ch1 != 'S' || tr1_ch1 != 'U' || tr1_ch2 != 'S' || tr1_ch2 != 'U' || tr1_ch3 != 'S' || tr1_ch3 != 'U' || tr1_va1 <= 0 ||
-        tr1_va2 <= 0 || tr1_va3 <= 0 ){
+//  if ( tr1_ch1 != 'S' || tr1_ch1 != 'U' || tr1_ch2 != 'S' || tr1_ch2 != 'U' || tr1_ch3 != 'S' || tr1_ch3 != 'U' || tr1_va1 <= 0 ||
+//        tr1_va2 <= 0 || tr1_va3 <= 0 ){
+//    printf("Nespravny vstup.\n");
+//    return 1;
+//  };
+
+
+
+  if ( tr1_va1 <= 0 || tr1_va2 <= 0 || tr1_va3 <= 0 ){
     printf("Nespravny vstup.\n");
     return 1;
   };
-
-
 
 
 
@@ -83,10 +93,11 @@ int main(){
             }
             else if ( tr1_va1 + tr1_va3 >= 180 ){
               printf("Vstup netvori trojuhelnik.\n");
+              return 1;
             };
 
   }
-  else{
+  else{                                                                             // mozna zbytecny !!!
     printf("Nespravny vstup.\n");
     return 1;
   };
@@ -110,7 +121,12 @@ int main(){
   printf("Trojuhelnik #2:\n");
 
 
-  if ( scanf(" %c%c%c %lf %lf %lf", &tr2_ch1, &tr2_ch2, &tr2_ch3, &tr2_va1, &tr2_va2, &tr2_va3) != 6 ){
+  if ( scanf(" %c%c%c", &tr2_ch1, &tr2_ch2, &tr2_ch3 ) != 3 ){
+    printf("Nespravny vstup.\n");
+    return 1;
+  };
+
+  if ( scanf("%lf %lf %lf", &tr2_va1, &tr2_va2, &tr2_va3 ) !=3 ){
     printf("Nespravny vstup.\n");
     return 1;
   };
@@ -118,12 +134,18 @@ int main(){
 
 
 
-  if ( tr2_ch1 != 'S' || tr2_ch1 != 'U' || tr2_ch2 != 'S' || tr2_ch2 != 'U' || tr2_ch3 != 'S' || tr2_ch3 != 'U' || tr2_va1 <= 0 ||
-        tr2_va2 <= 0 || tr2_va3 <= 0 ){
-    printf("Nespravny vstup.\n");
-    return 1;
-  };
+//  if ( tr2_ch1 != 'S' || tr2_ch1 != 'U' || tr2_ch2 != 'S' || tr2_ch2 != 'U' || tr2_ch3 != 'S' || tr2_ch3 != 'U' || tr2_va1 <= 0 ||
+//        tr2_va2 <= 0 || tr2_va3 <= 0 ){
+//    printf("Nespravny vstup.\n");
+//    return 1;
+//  };
 
+
+
+if ( tr2_va1 <= 0 || tr2_va2 <= 0 || tr1_va2 <= 0 ){
+  printf("Nespravny vstup.\n");
+  return 1;
+};
 
 
 
@@ -166,10 +188,11 @@ int main(){
                 }
                 else if ( tr2_va1 + tr2_va3 >= 180 ){
                   printf("Vstup netvori trojuhelnik.\n");
+                  return 1;
                 };
 
   }
-  else{
+  else{                                                                     // mozna zbytecny !!!
     printf("Nespravny vstup.\n");
     return 1;
   };
@@ -188,7 +211,8 @@ int main(){
 
 
 
-
+printf("%c%c%c %lf %lf %lf\n", tr1_ch1, tr1_ch2, tr1_ch3, tr1_va1, tr1_va2, tr1_va3);
+printf("%c%c%c %lf %lf %lf\n", tr2_ch1, tr2_ch2, tr2_ch3, tr2_va1, tr2_va2, tr2_va3);
 
 
 
