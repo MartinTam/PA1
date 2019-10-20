@@ -633,5 +633,253 @@ if ( tr2_va1 <= 0 || tr2_va2 <= 0 || tr1_va2 <= 0 ){
 
 
 
+
+
+
+  // SSS vs USU:
+
+
+        if ( tr1_ch1 == 'S' && tr1_ch2 == 'S' && tr1_ch3 == 'S' &&  tr2_ch1 == 'U' && tr2_ch2 == 'S' && tr2_ch3 == 'U' ){
+
+
+              // Dopocitavani 3. uhlu v triangle2:
+
+                    double j = 180 - (tr2_va1 + tr2_va3);
+
+              // Prevod uhlu na radiany:
+
+                    double alpha = tr2_va1 * (180 / M_PI);
+                    double beta = tr2_va3 * (180 / M_PI);
+                    double gama = j * (180 / M_PI);
+
+
+              // Dopocitavani stran u triangle2:
+
+                    double y = tr2_va2 * (sin(alpha)/sin(gama));
+                    double z = tr2_va2 * (sin(beta)/sin(gama));
+                    double x = tr2_va2;
+
+
+              // Serazeni stran:
+
+                                                // Serazeni delek stran tr1:
+
+
+                                                        if ( tr1_va1 > tr1_va2 ){
+                                                          double tmp = tr1_va1;
+                                                          tr1_va1 = tr1_va2;
+                                                          tr1_va2 = tmp;
+                                                        };
+
+                                                        if ( tr1_va2 > tr1_va3 ){
+                                                          double tmp = tr1_va2;
+                                                          tr1_va2 = tr1_va3;
+                                                          tr1_va3 = tmp;
+                                                        };
+
+                                                        if ( tr1_va1 > tr1_va2 ){
+                                                          double tmp = tr1_va1;
+                                                          tr1_va1 = tr1_va2;
+                                                          tr1_va2 = tmp;
+                                                        };
+
+
+                                                // Serazeni delek stran tr2:
+
+                                                        if ( z > y ){
+                                                          double tmp = z;
+                                                          z = y;
+                                                          y = tmp;
+                                                        };
+
+                                                        if ( y > x ){
+                                                          double tmp = y;
+                                                          y = x;
+                                                          x = tmp;
+                                                        };
+
+                                                        if ( z > y ){
+                                                          double tmp = z;
+                                                          z = y;
+                                                          y = tmp;
+                                                        };
+
+                // Shodnost:
+
+
+                            if ( tr1_va1 == z && tr1_va2 == y && tr1_va3 == x ){
+                              shodne = 1;
+                            }
+                            else{
+                              shodne = 0;
+                            };
+
+
+
+
+                // Podobnost:
+
+
+                            if ( ( (tr1_va1/z) == (tr1_va2/y) ) && ( (tr1_va2/y) == (tr1_va3/x) ) && ( (tr1_va1/z) == (tr1_va3/x) ) ){
+                              podobne = 1;
+                            }
+                            else{
+                              podobne = 0;
+                            };
+
+
+                // Vypis:
+
+
+
+                            if ( shodne == 1 && podobne == 1 ){
+                              printf("Trojuhelniky jsou shodne.\n");
+                              return 0;
+                            }
+                            else if ( shodne == 1 && podobne == 0 ){
+                              printf("Trojuhelniky jsou shodne.\n");
+                              return 0;
+                            }
+                            else if ( shodne == 0 && podobne == 1 ){
+                              printf("Trojuhelniky nejsou shodne, ale jsou podobne.\n");
+                              return 0;
+                            }
+                            else if ( shodne == 0 && podobne == 0 ){
+                              printf("Trojuhelniky nejsou shodne ani podobne.\n");
+                              return 0;
+                            };
+
+        };
+
+
+
+
+
+
+// USU vs SSS:
+
+
+        if ( tr1_ch1 == 'U' && tr1_ch2 == 'S' && tr1_ch3 == 'U' &&  tr2_ch1 == 'S' && tr2_ch2 == 'S' && tr2_ch3 == 'S' ){
+
+          // Dopocitavani 3. uhlu v triangle1:
+
+                double j = 180 - (tr1_va1 + tr1_va3);
+
+
+          // Prevod uhlu na radiany:
+
+                double alpha = tr1_va1 * (180 / M_PI);
+                double beta = tr1_va3 * (180 / M_PI);
+                double gama = j * (180 / M_PI);
+
+
+          // Dopocitavani stran u triangle1:
+
+                double y = tr1_va2 * (sin(alpha)/sin(gama));
+                double z = tr1_va2 * (sin(beta)/sin(gama));
+                double x = tr1_va2;
+
+
+          // Serazeni stran:
+
+                                            // Serazeni delek stran tr1:
+
+
+                                                    if ( z > y ){
+                                                      double tmp = z;
+                                                      z = y;
+                                                      y = tmp;
+                                                    };
+
+                                                    if ( y > x ){
+                                                      double tmp = y;
+                                                      y = x;
+                                                      x = tmp;
+                                                    };
+
+                                                    if ( z > y ){
+                                                      double tmp = z;
+                                                      z = y;
+                                                      y = tmp;
+                                                    };
+
+
+
+
+
+
+
+                                            // Serazeni delek stran tr2:
+
+
+                                                    if ( tr2_va1 > tr2_va2 ){
+                                                      double tmp = tr2_va1;
+                                                      tr2_va1 = tr2_va2;
+                                                      tr2_va2 = tmp;
+                                                    };
+
+                                                    if ( tr2_va2 > tr2_va3 ){
+                                                      double tmp = tr2_va2;
+                                                      tr2_va2 = tr2_va3;
+                                                      tr2_va3 = tmp;
+                                                    };
+
+                                                    if ( tr2_va1 > tr2_va2 ){
+                                                      double tmp = tr2_va1;
+                                                      tr2_va1 = tr2_va2;
+                                                      tr2_va2 = tmp;
+                                                    };
+
+
+
+
+                        // Shodnost:
+
+
+                                    if ( tr2_va1 == z && tr2_va2 == y && tr2_va3 == x ){
+                                      shodne = 1;
+                                    }
+                                    else{
+                                      shodne = 0;
+                                    };
+
+                        // Podobnost:
+
+
+                                    if ( ( (tr2_va1/z) == (tr2_va2/y) ) && ( (tr2_va2/y) == (tr2_va3/x) ) && ( (tr2_va1/z) == (tr2_va3/x) ) ){
+                                      podobne = 1;
+                                    }
+                                    else{
+                                      podobne = 0;
+                                    };
+
+                        // Vypis:
+
+
+
+                                    if ( shodne == 1 && podobne == 1 ){
+                                      printf("Trojuhelniky jsou shodne.\n");
+                                      return 0;
+                                    }
+                                    else if ( shodne == 1 && podobne == 0 ){
+                                      printf("Trojuhelniky jsou shodne.\n");
+                                      return 0;
+                                    }
+                                    else if ( shodne == 0 && podobne == 1 ){
+                                      printf("Trojuhelniky nejsou shodne, ale jsou podobne.\n");
+                                      return 0;
+                                    }
+                                    else if ( shodne == 0 && podobne == 0 ){
+                                      printf("Trojuhelniky nejsou shodne ani podobne.\n");
+                                      return 0;
+                                    };
+
+
+        };
+
+
+
+
+
   return 0;
 }
