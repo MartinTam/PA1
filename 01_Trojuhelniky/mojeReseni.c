@@ -374,14 +374,14 @@ int main(){
 
 
 
-  if ( (a==x) && (b==y) && (c==z) ){
+  if ( fabs(a-x) < 1e-10 * fabs(x) && fabs(b-y) < 1e-10 * fabs(y) && fabs(c-z) < 1e-10 * fabs(z) ){
     shodne = 1;
   }
   else{
     shodne = 0;
   };
 
-  if ( fabs( (a/x)-(b/y) ) < 1e-10 && fabs( (b/y)-(c/z) ) < 1e-10 && fabs( (a/x)-(c/z) ) < 1e-10 ){
+  if ( fabs( (a/x)-(b/y) ) < 1e-10 * fabs(b/y) && fabs( (b/y)-(c/z) ) < 1e-10 * fabs(c/z) && fabs( (a/x)-(c/z) ) < 1e-10 * fabs(c/z) ){
     podobne = 1;
   }
   else{
