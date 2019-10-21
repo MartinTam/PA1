@@ -73,7 +73,7 @@ int main(){
 
   if ( tr1_ch1 == 'S' && tr1_ch2 == 'S' && tr1_ch3 == 'S' ){
 
-          if ( fabs((tr1_va1 + tr1_va2) - tr1_va3 ) <= 1e-5 * fabs(tr1_va3) ){
+          if ( fabs((tr1_va1 + tr1_va2) - tr1_va3 ) <= 1e-5 * DBL_EPSILON * fabs(tr1_va3*tr1_va3) ){
             printf("Vstup netvori trojuhelnik.\n");
             return 1;
           };
@@ -225,7 +225,7 @@ int main(){
     return 1;
   };
 
-  if ( ( scanf("%lf %lf %lf", &tr2_va1, &tr2_va2, &tr2_va3 ) !=3 ) || tr2_va1 <= 0 || tr2_va2 <= 0 || tr1_va2 <= 0 ){
+  if ( ( scanf("%lf %lf %lf", &tr2_va1, &tr2_va2, &tr2_va3 ) !=3 ) || tr2_va1 <= 0 || tr2_va2 <= 0 || tr2_va3 <= 0 ){
     printf("Nespravny vstup.\n");
     return 1;
   };
