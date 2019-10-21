@@ -73,7 +73,7 @@ int main(){
 
   if ( tr1_ch1 == 'S' && tr1_ch2 == 'S' && tr1_ch3 == 'S' ){
 
-          if ( fabs((tr1_va1 + tr1_va2) - tr1_va3 ) <= 1e-5 * DBL_EPSILON * fabs(tr1_va3*tr1_va3) ){
+          if ( fabs((tr1_va1 + tr1_va2) - tr1_va3 ) <= 1e-5 * DBL_EPSILON * ( (tr1_va3*tr1_va3) + (tr1_va1*tr1_va1) + (tr1_va2*tr1_va2) ) ){
             printf("Vstup netvori trojuhelnik.\n");
             return 1;
           };
