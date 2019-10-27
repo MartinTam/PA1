@@ -4,7 +4,7 @@
 void convert (int number, int base){
 
                           int i, r, digit, p, count=0;
-                          char a[100];// clrscr();
+                          char a[100];
 
                           p=number;
 
@@ -25,16 +25,10 @@ void convert (int number, int base){
 
 }
 
-
-
-
-
-
-
 int symetrickeCislo(int number, int base){
 
                   int r, digit, p, count=0;
-                  char a[100];// clrscr();
+                  char a[100];
                   int vysledek;
 
                   p=number;
@@ -51,6 +45,8 @@ int symetrickeCislo(int number, int base){
 
                      }while(p!=0);
 
+
+
                      int i = count -1;
                      int minus = i;
 
@@ -58,7 +54,6 @@ int symetrickeCislo(int number, int base){
                        vysledek = 0;
                        return vysledek;
                      };
-
 
                        for (i = count -1; i > (i/2); --i){
                          if (a[i] == a[i-minus]){
@@ -89,20 +84,12 @@ int main(){
 
                                 while ( (err = scanf(" %c", &vystup)) == 1){
 
-
-
-
-
                                             if (vystup == 'c' || vystup == 'l'){
 
                                               if ( (scanf("%d %d %d", &zaklad, &from, &to) != 3) || zaklad < 2 || zaklad > 36 || from < 0 || from > to ){
                                                 printf("Nespravny vstup.\n");
                                                 return 1;
                                               };
-
-
-
-
 
                                               if (vystup == 'c'){
                                                 int i;
@@ -127,15 +114,6 @@ int main(){
                                                 };
                                               };
 
-
-
-
-
-
-
-
-
-
                                             }
                                             else{
                                               printf("Nespravny vstup.\n");
@@ -148,11 +126,6 @@ int main(){
                                       printf("Nespravny vstup.\n");
                                       return 1;
                                     };
-
-
-
-
-
 
 
   return 0;
