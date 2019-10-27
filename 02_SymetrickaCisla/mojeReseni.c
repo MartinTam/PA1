@@ -78,63 +78,74 @@ int symetrickeCislo(int number, int base){
 int main(){
 
   char vystup;
-  int zaklad, from, to, pocet=0;
+  int zaklad, from, to, pocet=0, err;
 
   printf("Vstupni intervaly:\n");
 
-  // OSETRENI VSTUPU:
-
-  if (scanf(" %c", &vystup) != 1){
-    printf("Nespravny vstup.\n");
-    return 1;
-  };
-
-  if (vystup == 'c' || vystup == 'l'){
-
-    if ( (scanf("%d %d %d", &zaklad, &from, &to) != 3) || zaklad < 2 || zaklad > 36 || from < 0 || from > to ){
-      printf("Nespravny vstup.\n");
-      return 1;
-    };
 
 
 
+                                // OSETRENI VSTUPU:
+
+                                while ( (err = scanf(" %c", &vystup)) == 1){
 
 
-    if (vystup == 'c'){
-      int i;
-      for(i = from; i <= to; i++){
-        if(symetrickeCislo(i, zaklad) == 0){
-          pocet = pocet + 1;
-        };
-      };
-      printf("Celkem: %d\n", pocet);
-    };
+                                            if (vystup == 'c' || vystup == 'l'){
 
-
-    if (vystup == 'l'){
-      int i;
-      for (i = from; i <= to; i++){
-        if(symetrickeCislo(i, zaklad) == 0){
-          printf("%d = ", i);
-          convert(i, zaklad);
-          printf(" (%d)\n", zaklad);
-        };
-      };
-    };
+                                              if ( (scanf("%d %d %d", &zaklad, &from, &to) != 3) || zaklad < 2 || zaklad > 36 || from < 0 || from > to ){
+                                                printf("Nespravny vstup.\n");
+                                                return 1;
+                                              };
 
 
 
 
+
+                                              if (vystup == 'c'){
+                                                int i;
+                                                for(i = from; i <= to; i++){
+                                                  if(symetrickeCislo(i, zaklad) == 0){
+                                                    pocet = pocet + 1;
+                                                  };
+                                                };
+                                                printf("Celkem: %d\n", pocet);
+                                                pocet = 0;
+                                              };
+
+
+                                              if (vystup == 'l'){
+                                                int i;
+                                                for (i = from; i <= to; i++){
+                                                  if(symetrickeCislo(i, zaklad) == 0){
+                                                    printf("%d = ", i);
+                                                    convert(i, zaklad);
+                                                    printf(" (%d)\n", zaklad);
+                                                  };
+                                                };
+                                              };
 
 
 
 
 
 
-  }
-  else{
-    printf("Nespravny vstup.\n");
-  };
+
+
+
+
+                                            }
+
+                                            else{
+                                              printf("Nespravny vstup.\n");
+                                            };
+
+
+                                    };
+
+                                    if (err != EOF){
+                                      printf("Nespravny vstup.\n");
+                                      return 1;
+                                    };
 
 
 
