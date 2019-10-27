@@ -90,6 +90,9 @@ int main(){
                                 while ( (err = scanf(" %c", &vystup)) == 1){
 
 
+
+
+
                                             if (vystup == 'c' || vystup == 'l'){
 
                                               if ( (scanf("%d %d %d", &zaklad, &from, &to) != 3) || zaklad < 2 || zaklad > 36 || from < 0 || from > to ){
@@ -134,11 +137,10 @@ int main(){
 
 
                                             }
-
                                             else{
                                               printf("Nespravny vstup.\n");
+                                              return 1;
                                             };
-
 
                                     };
 
