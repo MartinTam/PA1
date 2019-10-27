@@ -1,29 +1,28 @@
 #include <stdio.h>
 #include <math.h>
 
-// Prevod cisla z desitkove do jine soustavy:
+void convert (int number, int base){
 
-void convert(int number, int base){
+                          int i, r, digit, p, count=0;
+                          char a[100];// clrscr();
 
-  int i, r, digit, p, count=0;
-  char a[100];// clrscr();
+                          p=number;
 
-  p=number;
+                          do{
 
-  do{
+                              r=p%base;
+                              digit='0'+r;
+                              if(digit>'9')
+                                  digit=digit+39;
+                              a[count]=digit;
+                              count++;
+                              p=p/base;
 
-      r=p%base;
-      digit='0'+r;
-      if(digit>'9')
-          digit=digit+39;
-      a[count]=digit;
-      count++;
-      p=p/base;
+                             }while(p!=0);
 
-     }while(p!=0);
+                             for(i=count-1;i>=0;--i)
+                                printf("%c", a[i]);
 
-  for(i=count-1;i>=0;--i)
-     printf("%c",a[i]);
 }
 
 
@@ -31,25 +30,56 @@ void convert(int number, int base){
 
 
 
+
+int symetrickeCislo(int number, int base){
+
+                  int r, digit, p, count=0;
+                  char a[100];// clrscr();
+                  int vysledek;
+
+                  p=number;
+
+                  do{
+
+                      r=p%base;
+                      digit='0'+r;
+                      if(digit>'9')
+                          digit=digit+39;
+                      a[count]=digit;
+                      count++;
+                      p=p/base;
+
+                     }while(p!=0);
+
+                     int i = count -1;
+                     int minus = i;
+
+                     if (i == 0){
+                       vysledek = 0;
+                       return vysledek;
+                     };
+
+
+                       for (i = count -1; i > (i/2); --i){
+                         if (a[i] == a[i-minus]){
+                           vysledek = 0;
+                         }
+                         else if (a[i] != a[i-minus]){
+                           vysledek = 1;
+                           break;
+                         };
+                         minus = minus -2;
+                       };
+
+                     return vysledek;     // 0 - symetricky; 1 - neni symetricky
+}
+
+
 int main(){
-  /*
+
   char vystup;
-  int zaklad, from, to;
-  */
+  int zaklad, from, to, pocet=0;
 
-
-
-
-
-
-
-
-
-
-
-
-
-  /*
   printf("Vstupni intervaly:\n");
 
   // OSETRENI VSTUPU:
@@ -66,13 +96,46 @@ int main(){
       return 1;
     };
 
-    printf("Dobre.\n");
+
+
+
+
+    if (vystup == 'c'){
+      int i;
+      for(i = from; i <= to; i++){
+        if(symetrickeCislo(i, zaklad) == 0){
+          pocet = pocet + 1;
+        };
+      };
+      printf("Celkem: %d\n", pocet);
+    };
+
+
+    if (vystup == 'l'){
+      int i;
+      for (i = from; i <= to; i++){
+        if(symetrickeCislo(i, zaklad) == 0){
+          printf("%d = ", i);
+          convert(i, zaklad);
+          printf(" (%d)\n", zaklad);
+        };
+      };
+    };
+
+
+
+
+
+
+
+
+
 
   }
   else{
     printf("Nespravny vstup.\n");
   };
-  */
+
 
 
 
