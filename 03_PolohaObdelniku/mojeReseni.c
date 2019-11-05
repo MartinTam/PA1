@@ -8,13 +8,88 @@
 #define RECT_ERROR    (-1)
 #endif /* __PROGTEST__ */
 
+
+
+
+
+
+
+int pointInsideRectang(int a, int b, int c1, int c2, int d1, int d2){
+  if ( c1 > c2 ){
+    double tmp = c2;
+    c2 = c1;
+    c1 = tmp;
+  };
+
+  if ( d1 > d2 ){
+    double tmp = d2;
+    d2 = d1;
+    d1 = tmp;
+  };
+
+  if ((a > c1) && (a < c2) && (b > d1) && (b < d2)){
+    return 0;
+  }
+  else{
+    return 1;
+  };
+}
+
+
+int rectangleInAnother( int a, int b, int c, int d, int e, int f, int g, int h){
+  if (pointInsideRectang(a, c, e, f, g, h) == 0 &&
+      pointInsideRectang(b, c, e, f, g, h) == 0 &&
+      pointInsideRectang(a, d, e, f, g, h) == 0 &&
+      pointInsideRectang(b, d, e, f, g, h) == 0){
+        return 0;
+      }
+      else{
+        return 1;
+      };
+}
+
+
+
+
+
+
+
+
+
+
+
+
 int rectanglePosition ( int ax1, int ay1,
                         int ax2, int ay2,
                         int bx1, int by1,
                         int bx2, int by2 )
 {
-  /* todo */
+
+  if (rectangleInAnother(ax1, ay1, ax2, ay2, bx1, by1, bx2, by2) == 0){
+      return RECT_A_IN_B;
+  };
+  if (rectangleInAnother(bx1, by1, bx2, by2, ax1, ay1, ax2, ay2) == 0){
+      return RECT_B_IN_A;
+  };
+
+
+
+
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #ifndef __PROGTEST__
 int main ( int argc, char * argv [] )
