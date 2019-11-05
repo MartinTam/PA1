@@ -1,4 +1,4 @@
-#ifndef __PROGTEST__
+//#ifndef __PROGTEST__
 #include <stdio.h>
 #include <assert.h>
 #define RECT_NO_OVERLAP 0
@@ -6,7 +6,7 @@
 #define RECT_A_IN_B     2
 #define RECT_B_IN_A     3
 #define RECT_ERROR    (-1)
-#endif /* __PROGTEST__ */
+//#endif /* __PROGTEST__ */
 
 int error(int x1, int y1, int x2, int y2){
   if ((x1==x2) || (y1==y2)){
@@ -133,9 +133,9 @@ int rectanglePosition ( int ax1, int ay1,
 
 
 
-#ifndef __PROGTEST__
-int main ( int argc, char * argv [] )
-//int main(void)
+//#ifndef __PROGTEST__
+//int main ( int argc, char * argv [] )
+int main(void)
 {
   assert ( rectanglePosition ( 0, 0, 50, 20,
                                10, 5, 75, 40 ) == RECT_OVERLAP );
@@ -156,6 +156,31 @@ int main ( int argc, char * argv [] )
   assert ( rectanglePosition ( 0, 0, 50, 20,
                                50, -100, 100, -100 ) == RECT_ERROR );
 
+
+
+
+
+
+
+
+   assert ( rectanglePosition ( -7, -85, -26, -89, -26, -85, -7, -64 ) == RECT_NO_OVERLAP);
+   assert ( rectanglePosition ( 69, 126, 39, 118, 56, 151, 49, 97 ) == RECT_OVERLAP);
+   assert ( rectanglePosition ( 40, -22, 61, -13, 40, -13, 61, 9 ) == RECT_NO_OVERLAP);
+   assert ( rectanglePosition ( 130, -40, 120, -44, 130, -74, 120, -40 ) == RECT_OVERLAP);
+   assert ( rectanglePosition ( 62, -40, 37, -66, 62, -65, 37, -83 ) == RECT_OVERLAP);
+
+
+
+
+
+
+
+
+
+
+
+
+
   return 0;
 }
-#endif /* __PROGTEST__ */
+//#endif /* __PROGTEST__ */
