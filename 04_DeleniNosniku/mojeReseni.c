@@ -7,10 +7,12 @@ int intSortProc ( int * a, int * b )
   return ( *b < *a ) - ( *a < *b );
 }
 
+
 int main(){
   int i=0, e, plus = 0, err, pocetPrvku = 0;
   int array[ARRAY_MAX];
   long long int celkovySoucet = 0;
+
 
   printf("Zadejte delky:\n");
 
@@ -45,11 +47,24 @@ int main(){
     return 0;
   };
 
+qsort ( array, pocetPrvku - 1, sizeof ( *array ), (int(*)(const void *, const void *))intSortProc );
+
   for (e=0; e<(pocetPrvku - 3); e++){
-    qsort ( array, pocetPrvku - 1, sizeof ( *array ), (int(*)(const void *, const void *))intSortProc );
-    plus = array[e] + array[e+1];
-    celkovySoucet += plus;
-    array[e+1] = plus;
+
+      if (e != 0){
+          for (i=e; i <= (pocetPrvku - 3); i++){
+            if (array[i] > array[i+1]){
+                int tmp = array[i+1];
+                array[i+1] = array[i];
+                array[i] = tmp;
+            };
+          };
+        };
+
+        plus = array[e] + array[e+1];
+        celkovySoucet += plus;
+        array[e+1] = plus;
+
   };
 
   printf("Cena za deleni: %lld\n", celkovySoucet);
