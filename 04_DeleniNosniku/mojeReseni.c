@@ -9,13 +9,10 @@ int intSortProc ( int * a, int * b )
 
 
 int main(){
-  int celkovySoucet = 0;
+  int celkovySoucet = 0, i, e, plus = 0, err, pocetPrvku = 0;
   int array[ARRAY_MAX];
-  int i, e;
-  int plus = 0;
-  int err;
-  int pocetPrvku = 0;
 
+  printf("Zadejte delky:\n");
 
   while ( ( err = scanf("%d", &array[i++]) ) == 1){
     pocetPrvku++;
@@ -25,13 +22,24 @@ int main(){
     return 1;
   };
 
+  pocetPrvku += 1;
 
-  for (i=0; i<11; i++){
+  for (i=0; i<(pocetPrvku - 1); i++){
+    if (array[i] <= 0 || array[i] > ARRAY_MAX){
+      printf("Nespravny vstup.\n");
+    };
+  };
+
+  for (i=0; i<(pocetPrvku - 1); i++){
     celkovySoucet += array[i];
   };
 
-  for (e=0; e<9; e++){
-    qsort ( array, 11, sizeof ( *array ), (int(*)(const void *, const void *))intSortProc );
+  if (celkovySoucet == 1){
+    printf("Cena za deleni: 0\n");
+  };
+
+  for (e=0; e<(pocetPrvku - 3); e++){
+    qsort ( array, pocetPrvku - 1, sizeof ( *array ), (int(*)(const void *, const void *))intSortProc );
     plus = array[e] + array[e+1];
     celkovySoucet += plus;
     array[e] = 0;
@@ -39,6 +47,7 @@ int main(){
   };
 
   printf("Cena za deleni: %d\n", celkovySoucet);
+
 
   return 0;
 }
