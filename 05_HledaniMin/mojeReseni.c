@@ -4,7 +4,7 @@
 
 int main(){
 
-  int i, e, pocetMin = 0;
+  int i, e, pocetMin = 0, y, w;
 
   char minovePole[4][10];
 
@@ -48,52 +48,29 @@ int main(){
       if (minovePole[i][e] == '*'){
         vypocet[i][e] = '*';
       }else {
-        if ( (i-1) >= 0 && (i-1) <= 4 && (e-1) >= 0 && (e-1) <= 9 && minovePole[i-1][e-1] == '*'){
-          pocetMin += 1;
-        };
 
-        if ( (i-1) >= 0 && (i-1) <= 4 && (e) >= 0 && (e) <= 9 && minovePole[i-1][e] == '*'){
-          pocetMin += 1;
-        };
+            for (y=(i-1); y <= (i+1); y++){
+              for (w = (e-1); w <= (e+1); w++){
+                if(y==i && w==e){
+                  pocetMin += 0;
+                };
+                if(y >= 0 && y <= 4 && w >= 0 && w <= 9 && minovePole[y][w] == '*'){
+                    pocetMin += 1;
+                };
+              };
+            };
 
-        if ( (i-1) >= 0 && (i-1) <= 4 && (e+1) >= 0 && (e+1) <= 9 && minovePole[i-1][e+1] == '*'){
-          pocetMin += 1;
-        };
+            if (pocetMin == 0){
+              vypocet[i][e] = '.';
 
-        if ( (i) >= 0 && (i) <= 4 && (e-1) >= 0 && (e-1) <= 9 && minovePole[i][e-1] == '*'){
-          pocetMin += 1;
-        };
-
-        if ( (i) >= 0 && (i) <= 4 && (e+1) >= 0 && (e+1) <= 9 && minovePole[i][e+1] == '*'){
-          pocetMin += 1;
-        };
-
-        if ( (i+1) >= 0 && (i+1) <= 4 && (e-1) >= 0 && (e-1) <= 9 && minovePole[i+1][e-1] == '*'){
-          pocetMin += 1;
-        };
-
-        if ( (i+1) >= 0 && (i+1) <= 4 && (e) >= 0 && (e) <= 9 && minovePole[i+1][e] == '*'){
-          pocetMin += 1;
-        };
-
-        if ( (i+1) >= 0 && (i+1) <= 4 && (e+1) >= 0 && (e+1) <= 9 && minovePole[i+1][e+1] == '*'){
-          pocetMin += 1;
-        };
-
-        if (pocetMin == 0){
-          vypocet[i][e] = '.';
-
-        }else {
-            char str[2];
-            sprintf(str, "%d", pocetMin);
-            vypocet[i][e] = str[0];
-            pocetMin = 0;
-          };
-
-        };
-
+            }else {
+                char str[2];
+                sprintf(str, "%d", pocetMin);
+                vypocet[i][e] = str[0];
+                pocetMin = 0;
+            };
+      };
     };
-
   };
 
   printf("\n");
