@@ -1,2 +1,0 @@
-Type color in RGB format:
-#FF0000
