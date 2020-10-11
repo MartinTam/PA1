@@ -1,4 +1,0 @@
-Intervals:
-Total: 4955
-255 = ff (16)
-Invalid input.

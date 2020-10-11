@@ -1,0 +1,2 @@
+Enter lengths:
+Cutting cost: 40
