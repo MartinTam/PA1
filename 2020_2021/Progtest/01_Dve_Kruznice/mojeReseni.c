@@ -22,7 +22,7 @@ int polohaKruznic(double x1, double y1, double r1, double x2, double y2, double 
     return 1;
   };
 
-  if (vzdalenostStredu(x1, y1, x2, y2) == (r1 + r2)){                                                                         // 2 = vnejsi dotyk
+  if (  fabs( vzdalenostStredu(x1, y1, x2, y2) - (r1 + r2) ) <= 1e-12 * fabs( vzdalenostStredu(x1, y1, x2, y2) + (r1 + r2) ) ){                                                                         // 2 = vnejsi dotyk
     return 2;
   };
 
@@ -32,11 +32,11 @@ int polohaKruznic(double x1, double y1, double r1, double x2, double y2, double 
 
   if ( vzdalenostStredu(x1, y1, x2, y2) < (r1 + r2) ){
 
-    if ( ( r1 == ( vzdalenostStredu(x1, y1, x2, y2) + r2 ) ) || ( r2 == ( vzdalenostStredu(x1, y1, x2, y2) + r1 ) ) ){        // 4 = vnitrni dotyk
+    if ( ( fabs( vzdalenostStredu(x1, y1, x2, y2) - (r1 - r2) ) <= 1e-12 * fabs( vzdalenostStredu(x1, y1, x2, y2) + (r1 - r2) ) ) || ( fabs( vzdalenostStredu(x1, y1, x2, y2) - (r2 - r1) ) <= 1e-12 * fabs( vzdalenostStredu(x1, y1, x2, y2) + (r2 - r1) ) ) ){        // 4 = vnitrni dotyk
       return 4;
     };
 
-    if ( ( r1 > ( vzdalenostStredu(x1, y1, x2, y2) + r2 ) ) || ( r2 > ( vzdalenostStredu(x1, y1, x2, y2) + r1 ) ) ){          // 5 = uvnitr druhe
+    if ( ( vzdalenostStredu(x1, y1, x2, y2) < (r1 - r2) ) || ( vzdalenostStredu(x1, y1, x2, y2) < (r2 - r1) ) ){          // 5 = uvnitr druhe
       return 5;
     };
 
@@ -89,31 +89,6 @@ int main(){
     return 1;
   };
 
-  //=========================================================================================================================================
-/*
-  if( (x1==9354.2108) && (y1==-6811.9362) && (r1==21.7869) && (x2==9393.0188) && (y2==-6771.7570) && (r2==34.0739) ){
-    printf("Vnejsi dotyk, zadny prekryv.\n");
-    return 0;
-  };
-
-  if( (x1==-1445.5030) && (y1==5177.1676) && (r1==17.4227) && (x2==-1415.1087) && (y2==5216.2252) && (r2==32.0678) ){
-    printf("Vnejsi dotyk, zadny prekryv.\n");
-    return 0;
-  };
-
-  if( (x1==-5853.7605) && (y1==9467.4035) && (r1==1.5714) && (x2==-5851.1136) && (y2==9480.7415) && (r2==12.0267) ){
-    printf("Vnejsi dotyk, zadny prekryv.\n");
-    return 0;
-  };
-
-  if( (x1==) && (y1==) && (r1==) && (x2==) && (y2==) && (r2==) ){
-    printf("\n");
-    return 0;
-  };
-*/
-
-
-  //=========================================================================================================================================
 
   if (polohaKruznic(x1, y1, r1, x2, y2, r2) == 1){
     printf("Kruznice splyvaji, prekryv: %lf\n", obsahKruhu(r1));
