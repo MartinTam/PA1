@@ -2,7 +2,7 @@
 
 int main(){
 
-  long long a = 1, b = 2, c = 2;
+  long long a = 9223372036854775800, b = 9223372036854775800, c = -4611686018427387912;
 
   printf("\na/3 = %lld\n", a/3);
   printf("b/3 = %lld\n", b/3);
@@ -26,9 +26,9 @@ int main(){
   printf("=============================\n");
 
 
-  long double a1 = (long double)a/3;
-  long double b1 = (long double)b/3;
-  long double c1 = (long double)c/3;
+  long double a1 =  (long double)a/3 ;
+  long double b1 =  (long double)b/3 ;
+  long double c1 =  (long double)c/3 ;
   long long sum = ( (long long)a1 + (long long)b1 + (long long)c1 );
 
 
