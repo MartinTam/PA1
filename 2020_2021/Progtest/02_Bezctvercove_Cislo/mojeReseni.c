@@ -1,19 +1,56 @@
 #include <stdio.h>
 
-int test(int cislo){
+int test(int cislo){           /* 0 = bezctvercove cislo ; 1 = NENI */
 
-  if ( cislo == 1 ){
-    return 0;
-  };
+    int i = 2;
+    int test1 = 0;
+    int test2 = 0;
+    int result = 0;   /* 0 = JE ; 1 = NENI */
 
-  
+    if ( cislo == 1 ){
+      return result;
+    };
 
-  return 0;
+    while ( i <= cislo ){
+      if ( (cislo % i) == 0 ){
+
+        test2 = i;
+          if (test2 != test1){
+            test1 = i;
+          }else {
+             result = 1;
+             break;
+          };
+
+
+        cislo = cislo / i;
+      }else {
+        i++;
+      };
+    };
+
+    return result;
+
 }
 
 void bezctvercoveCislo(int poradi){
 
   int cislo=1, i=0;
+
+  if (poradi > 20000){
+    i = 19999;
+    cislo = 32905;
+  };
+
+  if (poradi > 30000){
+    i = 29999;
+    cislo = 49337;
+  };
+
+  if (poradi > 40000){
+    i = 39999;
+    cislo = 65797;
+  };
 
   while( i <= poradi ){
     if( test(cislo) == 0 ){

@@ -1,0 +1,6 @@
+Poradi:
+= 1
+= 2
+= 67
+= 3317
+Nespravny vstup.
