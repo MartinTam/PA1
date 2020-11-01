@@ -24,48 +24,54 @@ int unor(int year){
   return 28;
 }
 
-int kukaniJedenDen(int h1, int min1, int h2, int min2){       /* ====== Pocet kukani v jeden den ====== */
+int zakukej(int h){
+  int zakuka = 0;
+  if (h == 0){
+    zakuka += 12;
+    return zakuka;
+  };
+  if (h <= 12){
+    zakuka += h;
+  }else {
+    zakuka += h - 12;
+  };
+  return zakuka;
+}
 
-  int kukani = 0, i;
+int kukaniJedenDen(int h1, int i1, int h2, int i2){       /* ====== Pocet kukani v jeden den ====== */
 
-  while (h1 <= h2){
-      if (h1 == h2){
-        for (i=min1; i <= min2; i++){
-            if (i == 0){
-                      if (h1 > 12){
-                        kukani += (h1 - 12);
-                      };
-                      if (h1 <= 12){
-                        kukani += (h1);
-                      };
-                      if (h1 == 0){
-                        kukani += 12;
-                      };
-            };
-            if (i == 30){
-              kukani += 1;
-            };
+  int kukani = 0;
+  int start = h1 + 1;
+
+  if (h1==h2){
+    if ( i1==0 ){
+      kukani += zakukej(h1);
+    };
+    if ( (i1 <= 30) && (i2 >= 30) ){
+      kukani += 1;
+    };
+    return kukani;
+  }else {
+    if (i1==0){
+      kukani += zakukej(h1) + 1;
+    }else if (i1 <= 30){
+      kukani += 1;
+    };
+    if (start == h2){
+      kukani += zakukej(h2);
+    }else {
+        while ( start < h2){
+          kukani += zakukej(start) + 1;
+          start++;
+          if (start == h2){
+            kukani += zakukej(h2);
+            break;
           };
-          break;
-      };
-      for (i=min1; i < 59; i++){
-        if (i == 0){
-                  if (h1 > 12){
-                    kukani += (h1 - 12);
-                  };
-                  if (h1 <= 12){
-                    kukani += (h1);
-                  };
-                  if (h1 == 0){
-                    kukani += 12;
-                  };
         };
-        if (i == 30){
-          kukani += 1;
-        };
-      };
-      min1 = 0;
-      h1++;
+    };
+    if (i2 >= 30){
+      kukani += 1;
+    };
   };
   return kukani;
 }
@@ -143,8 +149,8 @@ int validDate(int y1, int m1, int d1, int h1, int i1, int y2, int m2, int d2, in
 
 int main(){
 
-  int y1=1600, m1=1, d1=1, h1=0, i1=0,
-      y2=4000, m2=12, d2=31, h2=23, i2=59;
+  int y1=2013, m1=10, d1=1, h1=13, i1=15,
+      y2=2013, m2=10, d2=1, h2=18, i2=45;
 
   if (validDate(y1, m1, d1, h1, i1, y2, m2, d2, h2, i2) == 1){
     printf("Nespravny vstup.\n");

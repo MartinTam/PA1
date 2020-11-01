@@ -27,54 +27,48 @@ int unor(int year){
   return 28;
 }
 
-int zakukej(int h){
-  int zakuka = 0;
-  if (h == 0){
-    zakuka += 12;
-    return zakuka;
-  };
-  if (h <= 12){
-    zakuka += h;
-  }else {
-    zakuka += h - 12;
-  };
-  return zakuka;
-}
+int kukaniJedenDen(int h1, int min1, int h2, int min2){       /* ====== Pocet kukani v jeden den ====== */
 
-int kukaniJedenDen(int h1, int i1, int h2, int i2){       /* ====== Pocet kukani v jeden den ====== */
+  int kukani = 0, i;
 
-  int kukani = 0;
-  int start = h1 + 1;
-
-  if (h1==h2){
-    if ( i1==0 ){
-      kukani += zakukej(h1);
-    };
-    if ( (i1 <= 30) && (i2 >= 30) ){
-      kukani += 1;
-    };
-    return kukani;
-  }else {
-    if (i1==0){
-      kukani += zakukej(h1) + 1;
-    }else if (i1 <= 30){
-      kukani += 1;
-    };
-    if (start == h2){
-      kukani += zakukej(h2);
-    }else {
-        while ( start < h2){
-          kukani += zakukej(start) + 1;
-          start++;
-          if (start == h2){
-            kukani += zakukej(h2);
-            break;
+  while (h1 <= h2){
+      if (h1 == h2){
+        for (i=min1; i <= min2; i++){
+            if (i == 0){
+                      if (h1 > 12){
+                        kukani += (h1 - 12);
+                      };
+                      if (h1 <= 12){
+                        kukani += (h1);
+                      };
+                      if (h1 == 0){
+                        kukani += 12;
+                      };
+            };
+            if (i == 30){
+              kukani += 1;
+            };
           };
+          break;
+      };
+      for (i=min1; i < 59; i++){
+        if (i == 0){
+                  if (h1 > 12){
+                    kukani += (h1 - 12);
+                  };
+                  if (h1 <= 12){
+                    kukani += (h1);
+                  };
+                  if (h1 == 0){
+                    kukani += 12;
+                  };
         };
-    };
-    if (i2 >= 30){
-      kukani += 1;
-    };
+        if (i == 30){
+          kukani += 1;
+        };
+      };
+      min1 = 0;
+      h1++;
   };
   return kukani;
 }
@@ -180,7 +174,7 @@ int cuckooClock ( int y1, int m1, int d1, int h1, int i1,
     * cuckoo = (long long int)( kukaniJedenDen(h1, i1, 23, 59) + kukaniJedenDen(0, 0, h2, i2) + 180*pocetDnuMezi(y1, m1, d1, y2, m2, d2) );
     return 1;
   }else {
-    * cuckoo = (long long int)( 180*( pocetDnuMezi(y1, m1, d1, y1, 12, 31) + 1 ) + 180*( pocetDnuMezi(y2, 1, 1, y2, m2, d2) + 1 ) + kukaniRoky(y1, y2)
+    * cuckoo = (long long int)( 180*( pocetDnuMezi(y1, m1, d1, y1, 12, 31) + 1 ) + 180*( pocetDnuMezi(y2, 1, 1, y2, m2, d2) + 1 ) + kukaniRoky(y1, y2) 
                                 + kukaniJedenDen(h1, i1, 23, 59) + kukaniJedenDen(0, 0, h2, i2));
   };
   return 0;

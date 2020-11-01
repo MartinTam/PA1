@@ -189,55 +189,39 @@ int rozdilMinut(int y1, int m1, int d1, int h1, int min1, int y2, int m2, int d2
 
 /* ====== Pocet kukani v jeden den ====== */
 
-int kukaniJedenDen(int h1, int min1, int h2, int min2){
+int kukaniJedenDen(int h1, int i1, int h2, int i2){
 
-  int kukani = 0, i;
+  int kukani = 0;
+  int start = h1 + 1;
 
-  while (h1 <= h2){
-
-      if (h1 == h2){
-        for (i=min1; i <= min2; i++){
-            if (i == 0){
-                      if (h1 > 12){
-                        kukani += (h1 - 12);
-                      };
-                      if (h1 <= 12){
-                        kukani += (h1);
-                      };
-                      if (h1 == 0){
-                        kukani += 12;
-                      };
-            };
-            if (i == 30){
-              kukani += 1;
-            };
+  if (h1==h2){
+    if ( i1==0 ){
+      kukani += zakukej(h1);
+    };
+    if ( (i1 <= 30) && (i2 >= 30) ){
+      kukani += 1;
+    };
+    return kukani;
+  }else {
+    if (i1==0){
+      kukani += zakukej(h1) + 1;
+    };
+    if (start == h2){
+      kukani += zakukej(h2);
+    }else {
+        while ( start < h2){
+          kukani += zakukej(start) + 1;
+          start++;
+          if (start == h2){
+            kukani += zakukej(h2);
+            break;
           };
-          break;
-      };
-
-      for (i=min1; i < 59; i++){
-        if (i == 0){
-
-                  if (h1 > 12){
-                    kukani += (h1 - 12);
-                  };
-                  if (h1 <= 12){
-                    kukani += (h1);
-                  };
-                  if (h1 == 0){
-                    kukani += 12;
-                  };
         };
-
-        if (i == 30){
-          kukani += 1;
-        };
-      };
-      min1 = 0;
-      h1++;
-
+    };
+    if (i2 >= 30){
+      kukani += 1;
+    };
   };
-
   return kukani;
 }
 
