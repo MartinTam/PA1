@@ -1,7 +1,4 @@
-#ifndef __PROGTEST__
 #include <stdio.h>
-#include <assert.h>
-#endif /* __PROGTEST__ */
 
 int prestupnyRok(int year){             /* ====== Prestupny rok ====== */
 
@@ -144,64 +141,22 @@ int validDate(int y1, int m1, int d1, int h1, int i1, int y2, int m2, int d2, in
   return 0;
 }
 
-int cuckooClock ( int y1, int m1, int d1, int h1, int i1,
-                  int y2, int m2, int d2, int h2, int i2, long long int * cuckoo )
-{
+int main(){
+
+  int y1=1600, m1=1, d1=1, h1=0, i1=0,
+      y2=4000, m2=12, d2=31, h2=23, i2=59;
 
   if (validDate(y1, m1, d1, h1, i1, y2, m2, d2, h2, i2) == 1){
-    return 0;
+    printf("Nespravny vstup.\n");
+    return 1;
   };
+
   if ( (y1==y2) && (m1==m2) && (d1==d2) ){
-    * cuckoo = kukaniJedenDen(h1, i1, h2, i2);
-    return 1;
+    printf("Kukani = %d\n", kukaniJedenDen(h1, i1, h2, i2));
   }else {
-    * cuckoo = kukaniJedenDen(h1, i1, 23, 59) + kukaniJedenDen(0, 0, h2, i2) + 180*pocetDnuMezi(y1, m1, d1, y2, m2, d2);
-    return 1;
+    printf("Kukani = %d\n", kukaniJedenDen(h1, i1, 23, 59) + kukaniJedenDen(0, 0, h2, i2) + 180*pocetDnuMezi(y1, m1, d1, y2, m2, d2));
   };
-  return 0;
-}
-
-
-
-
-
-
-
-#ifndef __PROGTEST__
-int main ( int argc, char * argv [] )
-{
-  long long int cuckoo;
-
-  assert ( cuckooClock ( 2013, 10,  1, 13, 15,
-                         2013, 10,  1, 18, 45, &cuckoo ) == 1 && cuckoo == 26 );
-  assert ( cuckooClock ( 2013, 10,  1, 13, 15,
-                         2013, 10,  2, 11, 20, &cuckoo ) == 1 && cuckoo == 165 );
-  assert ( cuckooClock ( 2013,  1,  1, 13, 15,
-                         2013, 10,  5, 11, 20, &cuckoo ) == 1 && cuckoo == 49845 );
-  assert ( cuckooClock ( 2012,  1,  1, 13, 15,
-                         2012, 10,  5, 11, 20, &cuckoo ) == 1 && cuckoo == 50025 );
-  assert ( cuckooClock ( 1900,  1,  1, 13, 15,
-                         1900, 10,  5, 11, 20, &cuckoo ) == 1 && cuckoo == 49845 );
-  assert ( cuckooClock ( 2013, 10,  1,  0,  0,
-                         2013, 10,  1, 12,  0, &cuckoo ) == 1 && cuckoo == 102 );
-  assert ( cuckooClock ( 2013, 10,  1,  0, 15,
-                         2013, 10,  1,  0, 25, &cuckoo ) == 1 && cuckoo == 0 );
-  assert ( cuckooClock ( 2013, 10,  1, 12,  0,
-                         2013, 10,  1, 12,  0, &cuckoo ) == 1 && cuckoo == 12 );
-  assert ( cuckooClock ( 2013, 11,  1, 12,  0,
-                         2013, 10,  1, 12,  0, &cuckoo ) == 0 );
-  assert ( cuckooClock ( 2013, 10, 32, 12,  0,
-                         2013, 11, 10, 12,  0, &cuckoo ) == 0 );
-  assert ( cuckooClock ( 2100,  2, 29, 12,  0,
-                         2100,  2, 29, 12,  0, &cuckoo ) == 0 );
-  assert ( cuckooClock ( 2400,  2, 29, 12,  0,
-                         2400,  2, 29, 12,  0, &cuckoo ) == 1 && cuckoo == 12 );
-
-  assert ( cuckooClock ( 1832, 1, 12, 0, 0, 1832, 12, 31, 0, 0, &cuckoo ) == 1 && cuckoo == 63732);
-  assert ( cuckooClock ( 1832, 1, 17, 0, 0, 1832, 12, 31, 0, 0, &cuckoo ) == 1 && cuckoo == 62832);
-
 
 
   return 0;
 }
-#endif /* __PROGTEST__ */

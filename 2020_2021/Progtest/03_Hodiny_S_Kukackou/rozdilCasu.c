@@ -254,20 +254,275 @@ int kukaniJedenDen(int h1, int min1, int h2, int min2){
 
 
 
+
+
+
+
+
+/* ====== Zjisteni nasledujiciho dne ====== */
+
+int nasledujiciDen(int y1, int m1, int d1, int y2, int m2, int d2){
+
+  int pocetDnu[11];
+
+  pocetDnu[0] = 31;
+
+  pocetDnu[2] = 31;
+  pocetDnu[3] = 30;
+  pocetDnu[4] = 31;
+  pocetDnu[5] = 30;
+
+  pocetDnu[6] = 31;
+  pocetDnu[7] = 31;
+  pocetDnu[8] = 30;
+  pocetDnu[9] = 31;
+  pocetDnu[10] = 30;
+  pocetDnu[11] = 31;
+
+  if ( prestupnyRok(y1) == 1 ){
+    pocetDnu[1] = 29;
+  }else {
+    pocetDnu[1] = 28;
+  };
+
+  int nextYear, nextMonth, nextDay;
+
+  if ( d1 < (pocetDnu[m1-1]) ){
+    nextYear = y1;
+    nextMonth = m1;
+    nextDay = d1 + 1;
+  };
+
+  if ( (m1 == 12) && (d1 == 31) ){
+    nextYear = y1 + 1;
+    nextMonth = 1;
+    nextDay = 1;
+  };
+
+  if ( d1 == pocetDnu[m1 - 1] ){
+    nextYear = y1;
+    nextMonth = m1 + 1;
+    nextDay = 1;
+  };
+
+  if ( (nextYear == y2) && (nextMonth == m2) && (nextDay == d2) ){
+    return 0;                                                             /* 0 = Dva dny po sobe! */
+  }else {
+    return 1;                                                             /* 1 = Nejsou po sobe! */
+  };
+
+}
+
+/* ================================================================= */
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ====== Pocet dnu mezi ====== */
+
+int pocetDnuMezi(int y1, int m1, int d1, int y2, int m2, int d2){
+
+  int pocet = 0;
+
+  if ( (y1==y2) && (m1==m2) && (d1==d2) ){
+    return pocet;
+  };
+
+  int nextYear = y1, nextMonth = m1, nextDay = d1;
+
+
+  while (nasledujiciDen( nextYear, nextMonth, nextDay, y2, m2, d2 ) != 0){
+
+                    int pocetDnu[11];
+
+                    pocetDnu[0] = 31;
+
+                    pocetDnu[2] = 31;
+                    pocetDnu[3] = 30;
+                    pocetDnu[4] = 31;
+                    pocetDnu[5] = 30;
+
+                    pocetDnu[6] = 31;
+                    pocetDnu[7] = 31;
+                    pocetDnu[8] = 30;
+                    pocetDnu[9] = 31;
+                    pocetDnu[10] = 30;
+                    pocetDnu[11] = 31;
+
+                    if ( prestupnyRok(nextYear) == 1 ){
+                      pocetDnu[1] = 29;
+                    }else {
+                      pocetDnu[1] = 28;
+                    };
+
+
+
+                    if ( nextDay < (pocetDnu[nextMonth-1]) ){
+                      nextDay = nextDay + 1;
+                    }else if ( (nextMonth == 12) && (nextDay == 31) ){
+                      nextYear = nextYear + 1;
+                      nextMonth = 1;
+                      nextDay = 1;
+                    }else if ( nextDay == pocetDnu[nextMonth - 1] ){
+                      nextMonth = nextMonth + 1;
+                      nextDay = 1;
+                    };
+
+                    pocet++;
+
+  };
+
+  return pocet;
+}
+
+/* ================================================================ */
+
+
+
+
+
+
+
+
+
+
+
+
+/* ====== Rozdeleni pripadu (dny) ====== */
+
+int pripady(int y1, int m1, int d1, int y2, int m2, int d2){
+
+  if ( (y1 == y2) && (m1 == m2) && (d1 == d2) ){                /* 0 = Ten samy den */
+    return 0;
+  };
+
+  if (nasledujiciDen(y1, m1, d1, y2, m2, d2) == 0){             /* 1 = Dva dny po sobe */
+    return 1;
+  };
+
+  return 2;                                                     /* 2 = Nekolik dnu mezi */
+}
+
+/* ================================================================== */
+
+
+
+
+
+
+
+
+/* ====== Osetrovani vstupu ====== */
+int osetreniVstupu(int y1, int m1, int d1, int h1, int i1, int y2, int m2, int d2, int h2, int i2){
+
+                if ( (y1 < 1600) || (y2 < 1600) ){
+                  return 0;
+                };
+                if ( (m1 < 1) || (m1 > 12) || (m2 < 1) || (m2 > 12) ){
+                  return 0;
+                };
+
+                int pocetDnu[11];
+
+                pocetDnu[0] = 31;
+
+                pocetDnu[2] = 31;
+                pocetDnu[3] = 30;
+                pocetDnu[4] = 31;
+                pocetDnu[5] = 30;
+
+                pocetDnu[6] = 31;
+                pocetDnu[7] = 31;
+                pocetDnu[8] = 30;
+                pocetDnu[9] = 31;
+                pocetDnu[10] = 30;
+                pocetDnu[11] = 31;
+
+                if ( prestupnyRok(y1) == 1 ){
+                  pocetDnu[1] = 29;
+                  if ( (d1 < 1) || (d1 > pocetDnu[m1-1]) ){
+                    return 0;
+                  };
+                }else {
+                  pocetDnu[1] = 28;
+                  if ( (d1 < 1) || (d1 > pocetDnu[m1-1]) ){
+                    return 0;
+                  };
+                };
+
+                if ( prestupnyRok(y2) == 1 ){
+                  pocetDnu[1] = 29;
+                  if ( (d2 < 1) || (d2 > pocetDnu[m2-1]) ){
+                    return 0;
+                  };
+                }else {
+                  pocetDnu[1] = 28;
+                  if ( (d2 < 1) || (d2 > pocetDnu[m2-1]) ){
+                    return 0;
+                  };
+                };
+
+                if ( (h1 < 0) || (h1 > 23) || (h2 < 0) || (h2 > 23) || (i1 < 0) || (i1 > 59) || (i2 < 0) || (i2 > 59) ){
+                  return 0;
+                };
+
+                if (rozdilMinut(y1, m1, d1, h1, i1, y2, m2, d2, h2, i2) < 0){
+                  return 0;
+                };
+
+                return 1;
+}
+/* ================================================================= */
+
+
+
+
+
+
+
+
 int main(){
 
-  int y1=2012, m1=1, d1=1, h1=0, min1=0,
-      y2=2012, m2=1, d2=1, h2=23, min2=59;
+  int y1=1832, m1=1, d1=1, h1=13, min1=21,
+      y2=1832, m2=1, d2=1, h2=13, min2=21;
+
+
+  if (pripady(y1, m1, d1, y2, m2, d2) == 0){
+    printf("Kukani = %d\n", kukaniJedenDen(h1, min1, h2, min2));
+  };
+
+  if (pripady(y1, m1, d1, y2, m2, d2) == 1){
+    printf("Kukani = %d\n", kukaniJedenDen(h1, min1, 23, 59) + kukaniJedenDen(0, 0, h2, min2));
+  };
+
+  if (pripady(y1, m1, d1, y2, m2, d2) == 2){
+    printf("Kukani = %d\n", kukaniJedenDen(h1, min1, 23, 59) + kukaniJedenDen(0, 0, h2, min2) + (180*pocetDnuMezi(y1, m1, d1, y2, m2, d2)) );
+  };
+
 
   int rozdil = rozdilMinut(y1, m1, d1, h1, min1, y2, m2, d2, h2, min2);
-
   printf("Rozdil minut = %d\n", rozdil);
-
-  int kukani = kukaniJedenDen(h1, min1, h2, min2);
-
-  printf("Kukani za jeden den = %d\n", kukani);
 
 
 
   return 0;
 }
+
+
+
+
+
+
+
+
+assert ( cuckooClock ( 1832, 1, 12, 0, 0, 1832, 12, 31, 0, 0, &cuckoo ) == 1 && cuckoo == 63732);
+assert ( cuckooClock ( 1832, 1, 17, 0, 0, 1832, 12, 31, 0, 0, &cuckoo ) == 1 && cuckoo == 62832);
