@@ -41,111 +41,90 @@ int zakukej(int h){
   return zakuka;
 }
 
-int kukaniJedenDen(int h1, int i1, int h2, int i2){       /* ====== Pocet kukani v jeden den ====== */
+int kukani(int y, int m, int d, int h, int i){
 
-  int kukani = 0;
-  int start = h1 + 1;
+  int kukani = 0, pocatekRoku = 1600, pocatekMesice = 1, pocatekDne = 1, pocatekHodiny = 0/*, pocatekMinuty = 0*/;
+  int year[] = {31, unor(y), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
-  if (h1==h2){
-    if ( i1==0 ){
-      kukani += zakukej(h1);
-    };
-    if ( (i1 <= 30) && (i2 >= 30) ){
-      kukani += 1;
-    };
-    return kukani;
-  }else {
-    if (i1==0){
-      kukani += zakukej(h1) + 1;
-    }else if (i1 <= 30){
-      kukani += 1;
-    };
-    if (start == h2){
-      kukani += zakukej(h2);
+  while (pocatekRoku < y){
+    if ( prestupnyRok(pocatekRoku) == 1 ){
+      kukani += 65880;
     }else {
-        while ( start < h2){
-          kukani += zakukej(start) + 1;
-          start++;
-          if (start == h2){
-            kukani += zakukej(h2);
-            break;
-          };
-        };
+      kukani += 65700;
     };
-    if (i2 >= 30){
-      kukani += 1;
-    };
+    pocatekRoku++;
   };
+
+  while ( pocatekMesice < m ){
+    kukani += 180*year[pocatekMesice-1];
+    pocatekMesice++;
+  };
+
+  while ( pocatekDne < d ){
+    kukani += 180;
+    pocatekDne++;
+  };
+
+  while ( pocatekHodiny < h ){
+    kukani += zakukej(pocatekHodiny) + 1;
+    pocatekHodiny++;
+  };
+
+  if ( (i >= 0) && (i < 30) ){
+    kukani += zakukej(h);
+  }else if (i >= 30){
+    kukani += zakukej(h) + 1;
+  };
+
   return kukani;
 }
 
-int pocetDnuMezi(int y1, int m1, int d1, int y2, int m2, int d2){
-
-  int pocet = 0, same = 0;
-
-  if ( (y1==y2) && (m1==m2) && (d1==d2) ){
-    return pocet;
-  };
-  while ( same == 0 ){
-      int pocetDnu[] = {31, unor(y1), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-
-      if ( d1 < (pocetDnu[m1-1]) ){
-        d1 = d1 + 1;
-      }else if ( (m1 == 12) && (d1 == 31) ){
-        y1 = y1 + 1;
-        m1 = 1;
-        d1 = 1;
-      }else if ( d1 == pocetDnu[m1 - 1] ){
-        m1 = m1 + 1;
-        d1 = 1;
-      };
-
-      if ( (y1==y2) && (m1==m2) && (d1==d2) ){
-        same = 1;
-        break;
-      };
-      pocet++;
-  };
-  return pocet;
-}
-
-int kukaniRoky(int y1, int y2){
-
-  int kukaniRok = 0;
-  int start = y1 + 1;
-
-  while (start != y2){
-    if (prestupnyRok(start) == 1){
-      kukaniRok += 65880;
-    }else {
-      kukaniRok += 65700;
-    };
-    start++;
-  };
-  return kukaniRok;
-}
 
 int doba(int y1, int m1, int d1, int h1, int i1, int y2, int m2, int d2, int h2, int i2){
 
-  int dny1;
-  if ((m1==1) && (d1==1)){
-    dny1 = 0;
-  }else {
-    dny1 = (pocetDnuMezi(y1, 1, 1, y1, m1, d1) + 1) * 24 * 60;
+  int pocatekMesice = 1, mesic1 = 0, mesic2 = 0;
+
+  int year1[] = {31, unor(y1), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+  int year2[] = {31, unor(y2), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+
+  while (pocatekMesice < m1){
+    mesic1 += year1[pocatekMesice - 1] * 24 * 60;
+    pocatekMesice++;
   };
 
-  int dny2;
-  if ((m2==1) && (d2==1)){
-    dny2 = 0;
-  }else {
-    dny2 = (pocetDnuMezi(y2, 1, 1, y2, m2, d2) + 1) * 24 * 60;
+  pocatekMesice = 1;
+
+  while (pocatekMesice < m2){
+    mesic2 += year2[pocatekMesice - 1] * 24 * 60;
+    pocatekMesice++;
   };
 
-  int doba1 = y1 + dny1 + (h1 * 60) + i1;
-  int doba2 = y2 + dny2 + (h2 * 60) + i2;
+  int pocatekRoku = 1600, rok1 = 0, rok2 = 0;
+
+  while (pocatekRoku < y1){
+    if (prestupnyRok(pocatekRoku) == 1){
+      rok1 += 366 * 24 * 60;
+    }else {
+      rok1 += 365 * 24 * 60;
+    };
+    pocatekRoku++;
+  };
+
+  pocatekRoku = 1600;
+
+  while (pocatekRoku < y2){
+    if (prestupnyRok(pocatekRoku) == 1){
+      rok2 += 366 * 24 * 60;
+    }else {
+      rok2 += 365 * 24 * 60;
+    };
+    pocatekRoku++;
+  };
+
+  int doba1 = rok1 + mesic1 + (d1*24*60) + (h1 * 60) + i1;
+  int doba2 = rok2 + mesic2 + (d2*24*60) + (h2 * 60) + i2;
   int doba = doba2 - doba1;
   return doba;
-
 }
 
 int validDate(int y1, int m1, int d1, int h1, int i1, int y2, int m2, int d2, int h2, int i2){
@@ -173,15 +152,22 @@ int cuckooClock ( int y1, int m1, int d1, int h1, int i1,
   if (validDate(y1, m1, d1, h1, i1, y2, m2, d2, h2, i2) == 1){
     return 0;
   };
-  if ( (y1==y2) && (m1==m2) && (d1==d2) ){
-    * cuckoo = (long long int)( kukaniJedenDen(h1, i1, h2, i2) ) ;
+
+  if ( (y1==y2) && (m1==m2) && (d1==d2) && (h1==h2) && (i1==i2) && (i1==0) ){
+    * cuckoo = (long long int)(zakukej(h1));
     return 1;
-  }else if ( (y1==y2) || (y1==y2-1) ){
-    * cuckoo = (long long int)( kukaniJedenDen(h1, i1, 23, 59) + kukaniJedenDen(0, 0, h2, i2) + 180*pocetDnuMezi(y1, m1, d1, y2, m2, d2) );
+  }else if ( (y1==y2) && (m1==m2) && (d1==d2) && (h1==h2) && (i1==i2) && (i1==30) ){
+    * cuckoo = 1;
+    return 1;
+  }else if (i1 == 0){
+    * cuckoo = (long long int)( kukani(y2, m2, d2, h2, i2) - kukani(y1, m1, d1, h1, i1) + zakukej(h1) );
+    return 1;
+  }else if (i1 == 30){
+    * cuckoo = (long long int)( kukani(y2, m2, d2, h2, i2) - kukani(y1, m1, d1, h1, i1) + 1 );
     return 1;
   }else {
-    * cuckoo = (long long int)( 180*( pocetDnuMezi(y1, m1, d1, y1, 12, 31) + 1 ) + 180*( pocetDnuMezi(y2, 1, 1, y2, m2, d2) + 1 ) + kukaniRoky(y1, y2)
-                                + kukaniJedenDen(h1, i1, 23, 59) + kukaniJedenDen(0, 0, h2, i2));
+    * cuckoo = (long long int)( kukani(y2, m2, d2, h2, i2) - kukani(y1, m1, d1, h1, i1) );
+    return 1;
   };
   return 0;
 }
