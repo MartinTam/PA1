@@ -1,0 +1,11 @@
+Progtest - funkce:
+0. Zahřívací: main, printf, scanf
+1. Úloha: DBL_EPSILON, sqrt, fabs, sin, cos
+2. Úloha: EOF
+3. Úloha: nic nového
+4. Úloha: typedef struct
+5. Úloha: malloc, realloc, free, feof, fgetc, getline, strncpy
+6. Úloha: strncmp, qsort
+7. Úloha: Nic nového
+8. Úloha: Nic nového
+Soutěžní: Nic nového

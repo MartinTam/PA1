@@ -1,5 +1,6 @@
 #include <stdio.h>          // fgets(),
 #include <string.h>         // getline(), strlen(), ...
+#include <stdlib.h>         // malloc(), realloc(), free(), ...
 
 #define ADD '+'
 #define MAX 100
@@ -36,7 +37,7 @@ int main (void){
     return 1;
   };
 
-  int number = ( len == 10 ? 1 : 2 );     // pokud v 'len' je 10, pak number=1, jinak number=2 
+  int number = ( len == 10 ? 1 : 2 );     // pokud v 'len' je 10, pak number=1, jinak number=2
 
   return 0;
 }
