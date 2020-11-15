@@ -62,7 +62,7 @@ int main(void){
   int rowsDiagonal, colsDiagonal;
 
   char ** diagonal;
-  if (**diagonal = NULL){
+  if (diagonal = NULL){
     printf("Nespravny vstup.\n");
     return 1;
   };
@@ -71,7 +71,7 @@ int main(void){
       cols = colsDiagonal + 1;
 
   char ** mask;
-  if (**mask = NULL){
+  if (mask = NULL){
     printf("Nespravny vstup.\n");
     return 1;
   };
