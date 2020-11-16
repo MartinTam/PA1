@@ -9,6 +9,14 @@ char ** createCharArray( int * rows, int * cols ){
   return array;
 }
 
+void fillBefore( char ** array, int * rows, int * cols ){
+  for (int r = 0; r < *rows; r++){
+    for (int c = 0; c < *cols; c++){
+      array[r][c] = 'X';
+    };
+  };
+}
+
 void freeCharArray( char ** array, int * rows ){
   for (int r = 0; r < *rows; r++){
     free(array[r]);
@@ -26,16 +34,41 @@ void printCharArray( char ** array, int * rows, int * cols ){
   printf("\n");
 }
 
-void ** reallocCharArray( char ** array, int * rows, int * cols ){
-  char ** tmp = (char **) 
+char ** reallocCharArray( char ** array, int * rows, int * cols ){
+
+  array = (char **) realloc ( array, (*rows * 2) * sizeof(char *) );
+  for(int r = *rows; r < (*rows * 2); r++ ){
+    array[r] = NULL;
+    array[r] = (char *) malloc ( *cols * 2 );
+    for (int c = 0; c < *cols * 2; c++){
+      array[r][c] = '.';
+    };
+  };
+
+  for(int r = 0; r < *rows; r++){
+    array[r] = (char *) realloc ( array[r], *cols * 2 );
+    for(int c = *cols; c < *cols * 2; c++){
+      array[r][c]='.';
+    };
+  };
+  *rows = *rows * 2;
+  *cols = *cols * 2;
+  return array;
 }
+
 
 int main(void){
   int rows = 5, cols = 5;
 
   char ** before = createCharArray( &rows, &cols );
+
+  fillBefore(before, &rows, &cols);
   printCharArray(before, &rows, &cols);
-  freeCharArray(before, &rows, &cols);
+
+  before = reallocCharArray(before, &rows, &cols);
+
+  printCharArray(before, &rows, &cols);
+  freeCharArray(before, &rows);
 
   return 0;
 }
