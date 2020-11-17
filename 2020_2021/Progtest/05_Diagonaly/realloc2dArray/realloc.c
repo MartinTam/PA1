@@ -56,6 +56,29 @@ char ** reallocCharArray( char ** array, int * rows, int * cols ){
   return array;
 }
 
+char ** reallocRows( char ** array, int * rows, int * cols ){
+  array = (char **) realloc ( array, (*rows * 2) * sizeof(char *) );
+  for(int r = *rows; r < (*rows * 2); r++ ){
+    array[r] = NULL;
+    array[r] = (char *) malloc ( *cols );
+    for (int c = 0; c < *cols; c++){
+      array[r][c] = '.';
+    };
+  };
+  *rows = *rows * 2;
+  return array;
+}
+
+char ** reallocCols( char ** array, int * rows, int * cols ){
+  for(int r = 0; r < *rows; r++){
+    array[r] = (char *) realloc ( array[r], *cols * 2 );
+    for(int c = *cols; c < *cols * 2; c++){
+      array[r][c]='.';
+    };
+  };
+  *cols = *cols * 2;
+  return array;
+}
 
 int main(void){
   int rows = 5, cols = 5;
@@ -64,10 +87,13 @@ int main(void){
 
   fillBefore(before, &rows, &cols);
   printCharArray(before, &rows, &cols);
-
-  before = reallocCharArray(before, &rows, &cols);
-
+/*
+  before = reallocRows(before, &rows, &cols);
   printCharArray(before, &rows, &cols);
+*/
+  before = reallocCols(before, &rows, &cols);
+  printCharArray(before, &rows, &cols);
+
   freeCharArray(before, &rows);
 
   return 0;

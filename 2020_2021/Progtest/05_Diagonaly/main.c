@@ -5,9 +5,6 @@ char ** createCharArray( int * rows, int * cols ){
   char ** array = (char **) malloc ( *rows * sizeof(*array));
   for (int r = 0; r < *rows; r++){
     array[r] = (char *) malloc ( *cols * sizeof(**array) );
-    for (int c = 0; c < *cols; c++){                              /* ADD */
-      array[r][c] = '*';
-    };
   };
   return array;
 }
@@ -19,24 +16,20 @@ void freeCharArray( char ** array, int * rows ){
   free(array);
 }
 
-char ** reallocCharArray( char ** array, int * rows, int * cols ){
-
+char ** reallocRows( char ** array, int * rows, int * cols ){
   array = (char **) realloc ( array, (*rows * 2) * sizeof(char *) );
   for(int r = *rows; r < (*rows * 2); r++ ){
     array[r] = NULL;
-    array[r] = (char *) malloc ( *cols * 2 );
-    for (int c = 0; c < *cols * 2; c++){
-      array[r][c] = '*';
-    };
-  };
-
-  for(int r = 0; r < *rows; r++){
-    array[r] = (char *) realloc ( array[r], *cols * 2 );
-    for(int c = *cols; c < *cols * 2; c++){
-      array[r][c]='*';
-    };
+    array[r] = (char *) malloc ( *cols );
   };
   *rows = *rows * 2;
+  return array;
+}
+
+char ** reallocCols( char ** array, int * rows, int * cols ){
+  for(int r = 0; r < *rows; r++){
+    array[r] = (char *) realloc ( array[r], *cols * 2 );
+  };
   *cols = *cols * 2;
   return array;
 }
@@ -45,120 +38,140 @@ char ** loadDiagonal( int * rowsDiagonal, int * colsDiagonal, int * rowsNewDiago
   char ** diagonal = createCharArray(rowsDiagonal, colsDiagonal);
 
   char c;
-  int row=0, col=0, charCount=0, firstRow=0;
+  int charCount=0, rowCount=0, colCount=0, firstRow=0, flag=0, eof=0;
 
   do{
-
-      do{
-
-        c = fgetc(stdin);
-
-        if(c == '\n'){
-          break;
-        };
-        diagonal[row][col] = c;
-        col++;
-        if(col >= *colsDiagonal){
-          diagonal = reallocCharArray(diagonal, rowsDiagonal, colsDiagonal);
-        };
-        charCount++;
-
-      }while ( 1 );
-
-      if ( (charCount != 0) && (charCount != firstRow) && (firstRow != 0) ){
-        freeCharArray(diagonal, rowsDiagonal);
-        return NULL;
-      };
-
-      if ( (charCount == 0) && (c == '\n') && (firstRow == 0) ){
-        freeCharArray(diagonal, rowsDiagonal);
-        return NULL;
-      };
-
-      if ( (charCount != 0) && (firstRow == 0)){
-        firstRow = charCount;
-      };
-
-      if ( (charCount == 0) && (c == '\n') && (firstRow != 0) ){
-        *rowsNewDiagonal = row;
-        *colsNewDiagonal = firstRow;
+    do{
+      c = fgetc(stdin);
+      if(c=='\n'){
         break;
       };
 
-      for (int i = 0; i < firstRow; i++){
-        if( ( diagonal[row][i] != '\\') && ( diagonal[row][i] != '/' ) ){
-          freeCharArray(diagonal, rowsDiagonal);
-          return NULL;
+      if(feof(stdin)){
+        flag=1;
+        break;
+      };
+
+      if( (c != '\\') && (c != '/') ){
+        flag = 1;
+      };
+
+      if(flag==0){
+        diagonal[rowCount][colCount] = c;
+        colCount++;
+        if(colCount >= *colsDiagonal){
+          diagonal = reallocCols(diagonal, rowsDiagonal, colsDiagonal);
         };
       };
+      charCount++;
+    }while(1);
 
-      row++;
-      if(row >= *rowsDiagonal){
-        diagonal = reallocCharArray(diagonal, rowsDiagonal, colsDiagonal);
+    if(eof){
+      break;
+    };
+
+    if( (charCount!=0) && (firstRow==0) && (flag==0) ){
+      firstRow = charCount;
+    };
+
+    if( (charCount!=0) && (firstRow!=0) && (charCount!=firstRow) ){
+      flag=1;
+    };
+
+    if( (charCount==0) && (c=='\n') ){
+      if(firstRow==0){
+        flag = 1;
       };
-      col = 0;
-      charCount = 0;
-  }while ( 1 );
+      break;
+    };
 
-  return diagonal;
+    if(flag==0){
+      colCount=0;
+      rowCount++;
+      if(rowCount >= *rowsDiagonal){
+        diagonal = reallocRows(diagonal, rowsDiagonal, colsDiagonal);
+      };
+    };
+    charCount=0;
+
+    if(flag==1){
+      break;
+    };
+  }while(1);
+
+  if(flag==1){
+    freeCharArray(diagonal, rowsDiagonal);
+    return NULL;
+  }else{
+    *rowsNewDiagonal = rowCount;
+    *colsNewDiagonal = firstRow;
+    return diagonal;
+  };
 }
 
 char ** loadMask( int * rows, int * cols ){
   char ** mask = createCharArray(rows, cols);
 
   char c;
-
-  int mainRows = *rows, mainCols = *cols;
-
-  int charCount=0, rowCount=0, colCount=0;
+  int charCount=0, rowCount=0, colCount=0, flag=0, eof=0;
 
   do{
     do{
       c = fgetc(stdin);
-      if(c == '\n'){
+      if(c=='\n'){
         break;
       };
 
-      if(charCount < mainCols){
+      if(feof(stdin)){
+        flag=1;
+        eof=1;
+        break;
+      };
+
+      if( (c!='#') && (c!='.') ){
+        flag=1;
+      };
+      if(colCount < *cols){
         mask[rowCount][colCount] = c;
         colCount++;
       };
-
       charCount++;
-
     }while(1);
 
-    if( (charCount==0) && (c == '\n') ){
-      freeCharArray(mask, rows);
-      return NULL;
-    };
-
-    if(charCount > mainCols){
-      freeCharArray(mask, rows);
-      return NULL;
-    };
-
-    colCount = 0;
-    rowCount++;
-
-    if(rowCount >= mainRows){
+    if(eof){
       break;
     };
 
-    charCount = 0;
+    if( (charCount==0) && (c=='\n') && (rowCount==0) ){
+      freeCharArray(mask, rows);
+      return NULL;
+    };
+
+    if(charCount > *cols){
+      freeCharArray(mask, rows);
+      return NULL;
+    };
+
+    if(charCount < *cols){
+      flag=1;
+    };
+
+    if(rowCount == *rows - 1){
+      break;
+    };
+
+    colCount=0;
+    charCount=0;
+    rowCount++;
 
   }while(1);
 
-  for(int r = 0; r < mainRows; r++){
-    for (int c = 0; c < mainCols; c++){
-      if( (mask[r][c] != '#') && ( mask[r][c] != '.' ) ){
-        freeCharArray(mask, rows);
-        return NULL;
-      };
-    };
-  };
-
-  return mask;
+  if(flag==1){
+    freeCharArray(mask, rows);
+    return NULL;
+  }else{
+    return mask;
+  }
 }
 
 /* Creating the result array and fill it with zeros */
@@ -242,6 +255,8 @@ int main(void){
     freeCharArray(diagonal, &rowsDiagonal);
     return 1;
   };
+
+
 
   int ** result = createResult( &rows, &cols );
   fillResult( diagonal, mask, result, &rowsNewDiagonal, &colsNewDiagonal );

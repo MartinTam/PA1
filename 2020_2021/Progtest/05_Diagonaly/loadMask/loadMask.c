@@ -68,58 +68,54 @@ char ** loadMask( int * rows, int * cols ){
   char ** mask = createCharArray(rows, cols);
 
   char c;
-
-  int mainRows = *rows, mainCols = *cols;
-
-  int charCount=0, rowCount=0, colCount=0;
+  int charCount=0, rowCount=0, colCount=0, flag=0;
 
   do{
     do{
       c = fgetc(stdin);
-      if(c == '\n'){
+      if(c=='\n'){
         break;
       };
-
-      if(charCount < mainCols){
+      if( (c!='#') && (c!='.') ){
+        flag=1;
+      };
+      if(colCount < *cols){
         mask[rowCount][colCount] = c;
         colCount++;
       };
-
       charCount++;
-
     }while(1);
 
-    if( (charCount==0) && (c == '\n') ){
+    if( (charCount==0) && (c=='\n') && (rowCount==0) ){
       freeCharArray(mask, rows);
       return NULL;
     };
 
-    if(charCount > mainCols){
+    if(charCount > *cols){
       freeCharArray(mask, rows);
       return NULL;
     };
 
-    colCount = 0;
-    rowCount++;
+    if(charCount < *cols){
+      flag=1;
+    };
 
-    if(rowCount >= mainRows){
+    if(rowCount == *rows - 1){
       break;
     };
 
-    charCount = 0;
+    colCount=0;
+    charCount=0;
+    rowCount++;
 
   }while(1);
 
-  for(int r = 0; r < mainRows; r++){
-    for (int c = 0; c < mainCols; c++){
-      if( (mask[r][c] != '#') && ( mask[r][c] != '.' ) ){
-        freeCharArray(mask, rows);
-        return NULL;
-      };
-    };
-  };
-
-  return mask;
+  if(flag==1){
+    freeCharArray(mask, rows);
+    return NULL;
+  }else{
+    return mask;
+  }
 }
 
 
