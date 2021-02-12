@@ -1,3 +1,0 @@
-Pattern:
-Mask:
-Invalid input.

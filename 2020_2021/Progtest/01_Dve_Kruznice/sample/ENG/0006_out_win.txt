@@ -1,2 +1,0 @@
-Enter circle #1 parameters:
-Invalid input.

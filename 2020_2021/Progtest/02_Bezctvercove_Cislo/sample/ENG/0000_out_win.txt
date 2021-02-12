@@ -1,6 +1,0 @@
-Index:
-= 1
-= 2
-= 67
-= 3317
-Invalid input.
